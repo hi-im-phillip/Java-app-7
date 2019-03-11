@@ -13,7 +13,7 @@ public class Predmet {
 		this.naziv = nazivPredmet;
 		this.brojEctsBodova = brojEctsBodovaPredmet;
 		this.nositelj = nositeljPredmet;
-		this.student = studentPredmet;
+		this.setStudent(studentPredmet);
 		
 	}
 
@@ -47,6 +47,14 @@ public class Predmet {
 
 	public void setNositelj(Profesor nositelj) {
 		this.nositelj = nositelj;
+	}
+
+	public Student[] getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student[] student) {
+		this.student = student;
 	}
 
 	public String toString() {

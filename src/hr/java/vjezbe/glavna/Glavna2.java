@@ -9,6 +9,7 @@ import hr.java.vjezbe.entitet.Profesor;
 import hr.java.vjezbe.entitet.Student;
 
 public class Glavna2 {
+	
 	public static void main(String[] args) {
 		
 		Scanner scanner = new Scanner(System.in);
@@ -19,9 +20,9 @@ public class Glavna2 {
 		
 		Predmet[] predmet = metode.predmet(scanner, profesor);
 		
-		Student[] student = metode.student(scanner);
+		Student[] student = metode.student(scanner, predmet);
 		
-		Ispit ispit = metode.ispit(scanner, predmet, student);
+		Ispit[] ispit = metode.ispit(scanner, predmet, student);
 		
 		
 				
