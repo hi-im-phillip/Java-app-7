@@ -123,7 +123,7 @@ public class Metode {
 		Student studentIspita = null;
 		Ispit[] ispit = new Ispit[BROJ_ISPITA];
 		
-		Integer ocjenaIspita = null;
+		
 		
 		for (int i = 0; i < ispit.length; i++) {
 					
@@ -176,7 +176,7 @@ public class Metode {
 		}
 		
 		System.out.println("Unesite ocjenu na ispitu (1-5): ");
-		ocjenaIspita = scanner.nextInt();
+		Integer ocjenaIspita = scanner.nextInt();
 		scanner.nextLine();
 		
 		System.out.println("Unesite datum i vrijeme ispita u formatu (dd.MM.yyyy.THH:mm):");		
