@@ -136,7 +136,7 @@ public class Metode {
 		if (odabirPredmeta <= p) {
 			predmetIspita = predmet[odabirPredmeta - 1];
 			System.out.println("Vaš odabir predmeta je " + odabirPredmeta + "." + predmet[odabirPredmeta - 1].getNaziv());
-		}else {
+		} else {
 			predmetIspita = predmet[0];
 			System.out.println("Morate odabrati jedan od ponuðenih predmeta. Dodijeljena je standardna vrijednost predmeta.");
 		}
