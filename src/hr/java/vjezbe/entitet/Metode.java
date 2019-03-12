@@ -32,11 +32,13 @@ public class Metode {
 		String titulaProfesora = scanner.nextLine();
 		
 		j++; 
-		profesor[i] = new Profesor(sifraProfesor, imeProfesor, prezimeProfesor, titulaProfesora);
+		profesor[i] = new Profesor(sifraProfesor, imeProfesor, prezimeProfesor, titulaProfesora);		
+		
 		
 		}
 		
 		return profesor;
+		
 	}
 		
 	public Predmet[] predmet(Scanner scanner, Profesor[] profesorObjekt) {
