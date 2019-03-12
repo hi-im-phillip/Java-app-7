@@ -33,8 +33,7 @@ public class Metode {
 		
 		j++; 
 		profesor[i] = new Profesor(sifraProfesor, imeProfesor, prezimeProfesor, titulaProfesora);		
-		
-		
+				
 		}
 		
 		return profesor;
@@ -86,13 +85,11 @@ public class Metode {
 	public Student[] student(Scanner scanner, Predmet[] predmet) {
 		
 		int sum = 0;
-		int u = 0;
 		int j = 1;
 		
 		for (Predmet predmetObjekt : predmet) {
-			int lengthStudentObjArray = predmet[u].getStudent().length;
+			int lengthStudentObjArray = predmetObjekt.getStudent().length;
 			  sum = lengthStudentObjArray + sum;
-			  u++;
 		}
 				
 		Student[] student = new Student[sum];
@@ -119,62 +116,47 @@ public class Metode {
 
 	public Ispit[] ispit(Scanner scanner, Predmet[] predmet, Student[] student) {
 		
-		Predmet predmetIspita = null;
-		Student studentIspita = null;
+		Predmet predmetIspita;
+		Student studentIspita;
 		Ispit[] ispit = new Ispit[BROJ_ISPITA];
-		
-		
-		
+		int s = 1;
+		int p = 1;
+				
 		for (int i = 0; i < ispit.length; i++) {
 					
 		System.out.println("Unesite ispitni rok: ");
-		System.out.println("Odaberite predmet: ");
-		System.out.println(1 + "." + predmet[0].getNaziv() + "\n" + 
-				           2 + "." + predmet[1].getNaziv() + "\n" + 
-				           3 + "." + predmet[2].getNaziv());
-		Integer odabirPredmet = scanner.nextInt();
+		System.out.println("Odaberite predmet: ");		
+		for (Predmet predmetObj : predmet) {
+			System.out.println(p++ + ". " + predmetObj.getNaziv());
+		}
+		
+		Integer odabirPredmeta = scanner.nextInt();
 		scanner.nextLine();
 		
-		switch (odabirPredmet) {
-		case 1:
-			predmetIspita = predmet[odabirPredmet - 1];
-			System.out.println("Vaš odabir predmeta je " + odabirPredmet + "." + predmet[odabirPredmet - 1].getNaziv());
-			break;
-		case 2:
-			predmetIspita = predmet[odabirPredmet - 1];
-			System.out.println("Vaš odabir predmeta je " + odabirPredmet + "." + predmet[odabirPredmet - 1].getNaziv());
-           break;
-		case 3:
-			predmetIspita = predmet[odabirPredmet - 1];
-			System.out.println("Vaš odabir predmeta je " + odabirPredmet + "." + predmet[odabirPredmet - 1].getNaziv());
-		  break;
-		default:
+		if (odabirPredmeta <= p) {
+			predmetIspita = predmet[odabirPredmeta - 1];
+			System.out.println("Vaš odabir predmeta je " + odabirPredmeta + "." + predmet[odabirPredmeta - 1].getNaziv());
+		}else {
 			predmetIspita = predmet[0];
 			System.out.println("Morate odabrati jedan od ponuðenih predmeta. Dodijeljena je standardna vrijednost predmeta.");
-			break;
 		}
-		
+				
 		System.out.println("Odaberite studenta: ");
-		System.out.println("1." + student[0].getIme() + " " + student[0].getPrezime() + "\n" +
-				           "2." + student[1].getIme() + " " + student[1].getPrezime());
-		Integer odabirStudent = scanner.nextInt();
+		for (Student studentObj : student) {
+				System.out.println(s++ + ". " + studentObj.getIme() + " " + studentObj.getPrezime());
+		}
+				
+		Integer odabirStudenta = scanner.nextInt();
 		scanner.nextLine();
 		
-		switch (odabirStudent) {
-		case 1:
-			studentIspita = student[odabirStudent - 1];
-			System.out.println("Vaš odabir studenta " + odabirStudent + "." + student[odabirStudent - 1].getIme() + " " + student[odabirStudent - 1].getPrezime());
-			break;
-		case 2:
-			studentIspita = student[odabirStudent - 1];
-			System.out.println("Vaš odabir studenta " + odabirStudent + "." + student[odabirStudent - 1].getIme() + " " + student[odabirStudent - 1].getPrezime());
-		    break;
-		default:
+		if (odabirStudenta <= s) {
+			studentIspita = student[odabirStudenta - 1];
+			System.out.println("Vaš odabir studenta " + odabirStudenta + "." + student[odabirStudenta - 1].getIme() + " " + student[odabirStudenta - 1].getPrezime());
+		} else {
 			studentIspita = student[0];
 			System.out.println("Morate odabrati nešto od ponuðenog. Dodijeljena je standardna vrijednost.");
-			break;
 		}
-		
+						
 		System.out.println("Unesite ocjenu na ispitu (1-5): ");
 		Integer ocjenaIspita = scanner.nextInt();
 		scanner.nextLine();
@@ -189,8 +171,7 @@ public class Metode {
 		ocjenaStudenta(ocjenaIspita, studentIspita, predmetIspita);
 		
 		}
-		
-		
+				
 		return ispit;		
 		
 	}
@@ -223,7 +204,7 @@ public class Metode {
 		if (ocijena == 5) {
 			System.out.println("Student " + studentIspit.getIme() + " " + studentIspit.getPrezime() + 
 	                " je ostvario ocjenu " + ocjenaIspitString + " na predmetu " + predmetIspit.getNaziv());
-		}else {
+		} else {
 			System.out.println("Nemaš pojma.");
 		}
 		
