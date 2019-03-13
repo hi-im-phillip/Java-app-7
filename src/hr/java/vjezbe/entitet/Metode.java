@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 
-
 public class Metode {
 	
 	public static final int BROJ_PROFESORA = 2;
@@ -17,19 +16,26 @@ public class Metode {
 	public Profesor[] profesor(Scanner scanner) {
 		
 		Profesor[] profesor = new Profesor[BROJ_PROFESORA];
+		String sifraProfesor = "";	
+		String imeProfesor = "";
+		String prezimeProfesor = "";
+		String titulaProfesora = "";
 		int j = 1;
 		
 		for(int i = 0; i < profesor.length; i++) {
-		
 		System.out.println("Unesite " + j + "." + " profesora: ");
-		System.out.println("Unesite šifru profesora: ");
-		String sifraProfesor = scanner.nextLine();
-		System.out.println("Unesite ime profesora: ");
-		String imeProfesor = scanner.nextLine();
-		System.out.println("Unesite prezime profesora: ");
-		String prezimeProfesor = scanner.nextLine();
-		System.out.println("Unesite titulu profesora: ");
-		String titulaProfesora = scanner.nextLine();
+        
+		String msgProfesorSifra = "Unesite šifru profesora:  ";
+    	sifraProfesor = emptyChecker(scanner, msgProfesorSifra , sifraProfesor);
+			
+		String msgProfesorName = "Unesite ime profesora: ";
+		imeProfesor = emptyChecker(scanner, msgProfesorName, imeProfesor);
+				
+		String msgProfesorSurname = "Unesite prezime profesora: ";
+		prezimeProfesor = emptyChecker(scanner, msgProfesorSurname, prezimeProfesor);
+		
+		String msgProfesorTitula = "Unesite titulu profesora: ";
+		titulaProfesora = emptyChecker(scanner, msgProfesorTitula, titulaProfesora);
 		
 		j++; 
 		profesor[i] = new Profesor(sifraProfesor, imeProfesor, prezimeProfesor, titulaProfesora);		
@@ -39,43 +45,59 @@ public class Metode {
 		return profesor;
 		
 	}
-		
+	
+	
+	
 	public Predmet[] predmet(Scanner scanner, Profesor[] profesorObjekt) {
 			
 		Predmet[] predmet = new Predmet[BROJ_PREDMETA];	
 		Profesor profesorOdabir;
+		String sifraPredmet = "";
+		String nazivPredmet = "";
 		int j = 1;
 		
-		for(int i = 0; i < predmet.length; i++) {
 		
-				System.out.println("Unesite " + j + "." + " Predmet: ");
-				System.out.println("Unesite šifru predmeta: ");
-				String sifraPredmet = scanner.nextLine();
-				System.out.println("Unesite naziv predmeta: ");
-				String nazivPredmet = scanner.nextLine();
+		for(int i = 0; i < predmet.length; i++) {
+			    
+			    int h = 1;
+			    System.out.println("Unesite " + j++ + "." + " Predmet: ");
+				
+			    String msgPredmetSifra = "Unesite šifru predmeta: ";
+				sifraPredmet = emptyChecker(scanner, msgPredmetSifra, sifraPredmet);
+				
+				String msgPredmetName = "Unesite naziv predmeta: ";
+				nazivPredmet = emptyChecker(scanner, msgPredmetName, nazivPredmet);
+				
 				System.out.println("Unesite broj ECTS bodova za predmet " + nazivPredmet + ":");
 				Integer brojEctsBodovaPredmet = scanner.nextInt();
 				scanner.nextLine();
-				System.out.println("Odaberite profesora: ");
-				System.out.println("1. " + profesorObjekt[0].getIme() + " " + profesorObjekt[0].getPrezime() + "\n" + 
-				"2. " + profesorObjekt[1].getIme() + " " + profesorObjekt[1].getPrezime());
+				
+				System.out.println("Odaberite profesora: ");		
+				for (Profesor profac : profesorObjekt) {
+					System.out.println(h++ + ". " + profac.getIme() + " " + profac.getPrezime());
+				}				
 				Integer odabirProfesor = scanner.nextInt();
 				scanner.nextLine();
-				if(odabirProfesor > 0 && odabirProfesor <= 2) {
-					profesorOdabir = profesorObjekt[odabirProfesor - 1];
-					System.out.println("Vaš odabir profesora je " + odabirProfesor + "." + profesorObjekt[odabirProfesor - 1].getIme() 
-							             + " " + profesorObjekt[odabirProfesor - 1].getPrezime());
-				} else {
-					profesorOdabir = profesorObjekt[0];
-					System.out.println("Krivo unešen odabir, mora biti jedan od ponuðenih profesora. \n Postavljena je standardna vrijednost.");
+				
+				while (odabirProfesor > profesorObjekt.length || odabirProfesor == 0) {
+					System.out.println("Nedozvoljen broj");
+					System.out.println("Odaberite profesora: ");
+					odabirProfesor = scanner.nextInt();
+					scanner.nextLine();
 				}
+								
+				profesorOdabir = profesorObjekt[odabirProfesor - 1];
+				System.out.println("Vaš odabir profesora je " + odabirProfesor + "." + profesorObjekt[odabirProfesor - 1].getIme() 
+							             + " " + profesorObjekt[odabirProfesor - 1].getPrezime());
+									
+				
 				System.out.println("Unesite broj studenta za predmet " + nazivPredmet + ":");
 				Integer studentPredmetInt = scanner.nextInt();
 				scanner.nextLine();
 				Student[] studentPredmet = new Student[studentPredmetInt];
 				
 				predmet[i] = new Predmet(sifraPredmet, nazivPredmet, brojEctsBodovaPredmet, profesorOdabir, studentPredmet);
-				j++;			
+							
 				  
 			}			
 	
@@ -209,4 +231,37 @@ public class Metode {
 		}
 		
 	}
+	
+	public String emptyChecker(Scanner scanner, String message, String scanString) {
+						
+		System.out.println(message);
+		scanString = scanner.nextLine();
+			
+		while (scanString.length() == 0) {
+				
+			System.out.println("Prazno polje!");
+			System.out.println(message);
+			scanString = scanner.nextLine();
+		}
+			
+		return scanString;
+	}
+	
+	public Integer emptyChecker(Scanner scanner, String message, Integer scanInteger) {
+
+		String scanString;
+		System.out.println(message);		
+		scanString = scanner.nextLine();
+					
+		while (scanString.length() == 0) {
+				
+			System.out.println("Prazno polje!");
+			System.out.println(message);
+			scanInteger = scanner.nextInt();
+		}
+		scanInteger = Integer.valueOf(scanString);
+		return scanInteger;
+
+	}
 }
+	
