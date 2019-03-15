@@ -51,7 +51,7 @@ public class Ispit {
 	}
 	
 	public String toString() {
-		return String.format("Predmet je %s, ocjena je %s, datum i vrijeme ispita su %s", getPredmet(), getOcjena(), getDatumIVrijeme());
+		return String.format("Predmet je %s, ocjena je %i, datum i vrijeme ispita su %s", getPredmet(), getOcjena(), getDatumIVrijeme());
 	}
 
 }

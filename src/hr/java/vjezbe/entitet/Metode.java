@@ -71,7 +71,7 @@ public class Metode {
 				nazivPredmet = emptyCheckerString(scanner, msgPredmetName, nazivPredmet);
 				
 				String msgPredmetECTS = "Unesite broj ECTS bodova za predmet " + nazivPredmet + ":";
-				brojEctsBodovaPredmet = emptyCheckerInteger(scanner, msgPredmetECTS, brojEctsBodovaPredmet);				
+				brojEctsBodovaPredmet = emptyCheckerInteger(scanner, msgPredmetECTS);				
 				
 				System.out.println("Odaberite profesora: ");		
 				for (Profesor profac : profesorObjekt) {
@@ -92,7 +92,7 @@ public class Metode {
 							             + " " + profesorObjekt[odabirProfesor - 1].getPrezime());
 													
 				String msgPredmetBrStud = "Unesite broj studenta za predmet " + nazivPredmet + ":";
-				studentPredmetInt = emptyCheckerInteger(scanner, msgPredmetBrStud, studentPredmetInt);				
+				studentPredmetInt = emptyCheckerInteger(scanner, msgPredmetBrStud);				
 				Student[] studentPredmet = new Student[studentPredmetInt];
 				
 				predmet[i] = new Predmet(sifraPredmet, nazivPredmet, brojEctsBodovaPredmet, profesorOdabir, studentPredmet);
@@ -147,6 +147,7 @@ public class Metode {
 		Predmet predmetIspita;
 		Student studentIspita;
 		Ispit[] ispit = new Ispit[BROJ_ISPITA];
+		Integer ocjenaIspita = 0;
 		int s = 1;
 		int p = 1;
 				
@@ -185,10 +186,9 @@ public class Metode {
 		studentIspita = student[odabirStudenta - 1];
 		System.out.println("Vaš odabir studenta " + odabirStudenta + "." + student[odabirStudenta - 1].getIme() + " " + student[odabirStudenta - 1].getPrezime());
 								
-		System.out.println("Unesite ocjenu na ispitu (1-5): ");
-		Integer ocjenaIspita = scanner.nextInt();
-		scanner.nextLine();
-		
+		String msgIspitOcj = "Unesite ocjenu na ispitu (1-5): ";
+		ocjenaIspita = emptyCheckerInteger(scanner, msgIspitOcj);
+				
 		System.out.println("Unesite datum i vrijeme ispita u formatu (dd.MM.yyyy.THH:mm):");		
 		String datumIVrijemeIspitString = scanner.nextLine();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.'T'HH:mm"); 
@@ -196,7 +196,7 @@ public class Metode {
 				
 		ispit[i] = new Ispit(predmetIspita, studentIspita, ocjenaIspita, datumIVrijemeIspita);
 		
-		ocjenaStudenta(ocjenaIspita, studentIspita, predmetIspita);
+		ocjenaStudenta(ispit);
 		
 		}
 				
@@ -204,37 +204,38 @@ public class Metode {
 		
 	}
 	
-	public void ocjenaStudenta(Integer ocijena, Student studentIspit, Predmet predmetIspit) {
+	public void ocjenaStudenta(Ispit[] ispitStudent) {
 		
 		String ocjenaIspitString;
+						
+		for (Ispit ispiti : ispitStudent) {
+			if (ispiti.getOcjena() == 5) {
+				switch (ispiti.getOcjena()) {
+				case 1:
+					ocjenaIspitString = "nedovoljan";
+					break;
+				case 2:
+					ocjenaIspitString = "dovoljan";
+					break;
+				case 3:
+					ocjenaIspitString = "dobar";
+					break;
+				case 4:
+					ocjenaIspitString = "vrlo dobar";
+					break;
+				case 5:
+					ocjenaIspitString = "odlièan";
+					break;
+				default:
+					ocjenaIspitString = "nedovoljan";
+					break;
+					}
+					System.out.println("Student " + ispiti.getStudent().getIme() + " " + ispiti.getStudent().getPrezime() + " je ostvario ocjenu " + ocjenaIspitString
+	                   + " na predmetu " + ispiti.getPredmet());
+				}
+				
+			}
 		
-		switch (ocijena) {
-		case 1:
-			 ocjenaIspitString = "nedovoljan";
-			break;
-		case 2:
-			 ocjenaIspitString = "dovoljan";
-			break;
-		case 3:
-			 ocjenaIspitString = "dobar";
-			break;
-		case 4:
-			 ocjenaIspitString = "vrlo dobar";
-			break;
-		case 5:
-			 ocjenaIspitString = "odlièan";
-			break;
-		default:
-			ocjenaIspitString = "nedovoljan";
-			break;
-		}
-		
-		if (ocijena == 5) {
-			System.out.println("Student " + studentIspit.getIme() + " " + studentIspit.getPrezime() + 
-	                " je ostvario ocjenu " + ocjenaIspitString + " na predmetu " + predmetIspit.getNaziv());
-		} else {
-			System.out.println("Nemaš pojma.");
-		}
 		
 	}
 	
@@ -253,9 +254,10 @@ public class Metode {
 		return scanString;
 	}
 	
-	public Integer emptyCheckerInteger(Scanner scanner, String message, Integer scanInteger) {
+	public Integer emptyCheckerInteger(Scanner scanner, String message) {
 
 		String scanString;
+		Integer scanInteger;
 		System.out.println(message);		
 		scanString = scanner.nextLine();
 					
@@ -265,6 +267,7 @@ public class Metode {
 			System.out.println(message);
 			scanInteger = scanner.nextInt();
 		}
+		
 		scanInteger = Integer.valueOf(scanString);
 		return scanInteger;
 
