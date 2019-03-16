@@ -1,6 +1,7 @@
 package hr.java.vjezbe.entitet;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Ispit {
 	
@@ -51,7 +52,11 @@ public class Ispit {
 	}
 	
 	public String toString() {
-		return String.format("Predmet je %s, ocjena je %i, datum i vrijeme ispita su %s", getPredmet(), getOcjena(), getDatumIVrijeme());
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.'T'HH:mm"); 
+		String datumIVrijemeString = getDatumIVrijeme().format(formatter);
+		
+		return String.format("Predmet je %s, ocjena je %d, datum i vrijeme ispita su %s%n", getPredmet().getNaziv(), getOcjena(), datumIVrijemeString);
 	}
 
 }

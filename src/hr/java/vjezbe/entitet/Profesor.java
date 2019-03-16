@@ -54,7 +54,7 @@ public class Profesor {
 	}
 
 	public String toString() {
-		return String.format("Sifra je %s, Ime profesora je %s, Prezime profesora je %s, Titula je %s ", getSifra(), getIme(), getPrezime(), getTitula());
+		return String.format("Sifra je %s, ime profesora je %s, prezime profesora je %s, titula je %s ", getSifra(), getIme(), getPrezime(), getTitula());
 	}
 	
 	

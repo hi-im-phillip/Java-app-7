@@ -1,6 +1,7 @@
 package hr.java.vjezbe.entitet;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Student {
 	
@@ -49,7 +50,11 @@ public class Student {
 	}
     
     public String toString() {
-    	return String.format("JMBAG studenta je %s, ime i prezime studenta je %s %s, i datum rodenja je %s", getJmbag(), getIme(), getPrezime(), getDatumRodenja());
+    	
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy."); 
+		String datumRodenjaString = getDatumRodenja().format(formatter);
+    	
+    	return String.format("JMBAG studenta je %s, ime i prezime studenta je %s %s, i datum rodenja je %s%n", getJmbag(), getIme(), getPrezime(), datumRodenjaString);
     }
     
     

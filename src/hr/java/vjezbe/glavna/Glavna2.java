@@ -16,13 +16,15 @@ public class Glavna2 {
 		
 		Metode metode = new Metode();
 				
-		Profesor[] profesor = metode.profesor(scanner);
+		Profesor[] profesor = metode.fillProfesor(scanner);
 		
-		Predmet[] predmet = metode.predmet(scanner, profesor);
+		Predmet[] predmet = metode.fillPredmet(scanner, profesor);
 		
-		Student[] student = metode.student(scanner, predmet);
+		Student[] student = metode.fillStudent(scanner, predmet);
 		
-		Ispit[] ispit = metode.ispit(scanner, predmet, student);
+		Ispit[] ispit = metode.fillIspit(scanner, predmet, student);
+		
+		metode.checkerOcjenaStudenta(ispit);
 		
 		
 				
