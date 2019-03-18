@@ -57,8 +57,12 @@ public class Predmet {
 		this.student = student;
 	}
 
-	public String toString() {
-		return String.format("Sifra predmeta je %s, naziv predmeta je %s, broj ECTS bodova su %d, profesor je %s", getSifra(), getNaziv(), getBrojEctsBodova(), getNositelj());
+//	public String toString() {
+//		return String.format("Sifra predmeta je %s, naziv predmeta je %s, broj ECTS bodova su %d, profesor je %s", getSifra(), getNaziv(), getBrojEctsBodova(), getNositelj());
+//	}
+	
+	public String tosTring() {
+		return String.format("%s", getNaziv());
 	}
 	
 }
