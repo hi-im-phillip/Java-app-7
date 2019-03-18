@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Scanner;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -14,7 +14,7 @@ public class Metode {
 	
 	public static final int BROJ_PROFESORA = 2;
 	public static final int BROJ_PREDMETA = 3;
-	public static final int BROJ_ISPITA = 1;
+	public static final int BROJ_ISPITA = 2;
 	public static final String FORMAT_DATE_TIME = "dd.MM.yyyy.'T'HH:mm";
 	public static final String FORMAT_DATE = "dd.MM.yyyy.";
 	
@@ -25,11 +25,11 @@ public class Metode {
 		String imeProfesor = "";
 		String prezimeProfesor = "";
 		String titulaProfesora = "";
-		int j = 1;
+		
 		
 		for(int i = 0; i < profesor.length; i++) {
 
-			System.out.println("Unesite " + j + "." + " profesora: ");
+			System.out.println("Unesite " + (i+1) + "." + " profesora: ");
 
 			String msgProfesorSifra = "Unesite šifru profesora:  ";
 			sifraProfesor = emptyCheckerString(scanner, msgProfesorSifra);
@@ -51,7 +51,6 @@ public class Metode {
 			String msgProfesorTitula = "Unesite titulu profesora: ";
 			titulaProfesora = emptyCheckerString(scanner, msgProfesorTitula);
 
-			j++; 
 			profesor[i] = new Profesor(sifraProfesor, StringUtils.capitalize(imeProfesor), StringUtils.capitalize(prezimeProfesor), titulaProfesora);		
 
 		}		
@@ -67,13 +66,12 @@ public class Metode {
 		String nazivPredmet = "";
 		Integer brojEctsBodovaPredmet = 0;
 		Integer studentPredmetInt = 0;
-		int j = 1;
 		
-		
+			
 		for(int i = 0; i < predmet.length; i++) {
 
 			int h = 1;
-			System.out.println("Unesite " + j++ + "." + " predmet: ");
+			System.out.println("Unesite " + (i+1) + "." + " predmet: ");
 
 			String msgPredmetSifra = "Unesite šifru predmeta: ";
 			sifraPredmet = emptyCheckerString(scanner, msgPredmetSifra);			
@@ -89,6 +87,15 @@ public class Metode {
 
 			String msgPredmetName = "Unesite naziv predmeta: ";
 			nazivPredmet = emptyCheckerString(scanner, msgPredmetName);
+			
+			for (int j = 0; j < predmet.length && predmet[j] != null; j++) {
+				Predmet predmet2 = predmet[j];
+				while (predmet2.getNaziv().equals(nazivPredmet)) {
+					System.out.println("Ime je veæ unešeno. Probaj drugo.");
+					nazivPredmet = emptyCheckerString(scanner, msgPredmetName);
+				}
+				
+			}
 
 			String msgPredmetECTS = "Unesite broj ECTS bodova za predmet " + nazivPredmet + ":";
 			brojEctsBodovaPredmet = emptyCheckerInteger(scanner, msgPredmetECTS);				
@@ -114,6 +121,7 @@ public class Metode {
 			String msgPredmetBrStud = "Unesite broj studenta za predmet " + nazivPredmet + ":";
 			studentPredmetInt = emptyCheckerInteger(scanner, msgPredmetBrStud);				
 			Student[] studentPredmet = new Student[studentPredmetInt];
+			
 
 			predmet[i] = new Predmet(sifraPredmet, StringUtils.capitalize(nazivPredmet), brojEctsBodovaPredmet, profesorOdabir, studentPredmet);
 
@@ -126,11 +134,12 @@ public class Metode {
 	public Student[] fillStudent(Scanner scanner, Predmet[] predmet) {
 		
 		int sum = 0;
-		int j = 1;
+		
 		String imeStudent = "";
 		String prezimeStudent = "";
 		String jmbagStudent = "";
 		LocalDate datumRodenjaStudenta = null;
+		
 		
 		for (Predmet predmetObjekt : predmet) {
 			int lengthStudentObjArray = predmetObjekt.getStudent().length;
@@ -138,10 +147,11 @@ public class Metode {
 		}
 				
 		Student[] student = new Student[sum];
+		
 				
 		for(int i = 0; i < student.length; i++) {
 
-			System.out.println("Unesite " + j + "." + " studenta:");
+			System.out.println("Unesite " + (i+1) + "." + " studenta:");
 
 			String msgStudentName = "Unesite ime studenta: ";
 			imeStudent = emptyCheckerString(scanner, msgStudentName);
@@ -163,10 +173,10 @@ public class Metode {
 				}	
 			}
 
-			j++;
+			
 			student[i] = new Student(StringUtils.capitalize(imeStudent), StringUtils.capitalize(prezimeStudent), jmbagStudent, datumRodenjaStudenta);
-
-			predmet[i].setStudent(student);
+	
+			
 		}
 
 		return student;
@@ -179,13 +189,15 @@ public class Metode {
 		Student studentIspita;
 		Ispit[] ispit = new Ispit[BROJ_ISPITA];
 		Integer ocjenaIspita = 0;
-		int s = 1;
-		int p = 1;
-		int r = 1;
-				
+		
+			
+		
 		for (int i = 0; i < ispit.length; i++) {
 
-			System.out.println("Unesite ispitni rok: ");
+			int s = 1;
+			int p = 1;
+			
+			System.out.println("Unesite " + (i+1) + ". " + "ispitni rok: ");
 			
 			System.out.println("Odaberite predmet: ");		
 			for (Predmet predmetObj : predmet) 
@@ -218,7 +230,7 @@ public class Metode {
 			}		
 			studentIspita = student[odabirStudenta - 1];
 			System.out.println("Vaš odabir studenta je " + odabirStudenta + ". " + student[odabirStudenta - 1].getIme() + " " + student[odabirStudenta - 1].getPrezime());
-
+            
 			// IN PROGRESS
 //			for (Predmet predmet2 : predmet) {
 //				 Arrays.sort(predmet, (a, b) -> a.getNaziv().compareTo(b.getNaziv()));
@@ -237,7 +249,13 @@ public class Metode {
 
 			String msgDatumIVrijemeIspit = "Unesite datum i vrijeme ispita u formatu (dd.MM.yyyy.THH:mm):";
 			LocalDateTime datumIVrijemeIspita = dateTimeChecker(scanner, msgDatumIVrijemeIspit);
-
+            
+			
+			Student[] student3 = addStudent(studentIspita);
+			predmet[odabirPredmeta - 1].setStudent(student3);
+			removeStudent(student3);
+			
+			
 			ispit[i] = new Ispit(predmetIspita, studentIspita, ocjenaIspita, datumIVrijemeIspita);
 
 		}
@@ -354,6 +372,21 @@ public class Metode {
 			
 		}
 		return datumIVrijemeIspita;
+	}
+	
+	public Student[] addStudent(Student student) {
+		Student[] stud = new Student[BROJ_ISPITA];
+		int i = 0;
+		if (i < stud.length) {
+			stud[i] = student; 
+			i++;
+		}
+		return stud;
+	}
+	
+	public void removeStudent(Student[] student) {
+		
+		student = ArrayUtils.remove(student, 0);
 	}
 	
 }

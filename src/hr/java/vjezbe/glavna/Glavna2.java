@@ -27,6 +27,8 @@ public class Glavna2 {
 		metode.checkerOcjenaStudenta(ispit);
 		
 		
+		
+		
 				
 				
 	}

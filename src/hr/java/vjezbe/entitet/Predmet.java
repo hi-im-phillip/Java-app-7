@@ -13,7 +13,7 @@ public class Predmet {
 		this.naziv = nazivPredmet;
 		this.brojEctsBodova = brojEctsBodovaPredmet;
 		this.nositelj = nositeljPredmet;
-		this.setStudent(studentPredmet);
+		this.student = studentPredmet;
 		
 	}
 
