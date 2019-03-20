@@ -364,8 +364,8 @@ public class Metode {
 		String datumIVrijemeIspitaString = scanner.nextLine();
 		LocalDateTime datumIVrijemeIspita = LocalDateTime.parse(datumIVrijemeIspitaString, formatter);
 		
-		while (datumIVrijemeIspita.isBefore(todayParsed)) {
-			System.out.println("Pa kak' možeš unijet datum prije današnjeg za polaganje ispita? Daj se skoncentriraj.");
+		while (datumIVrijemeIspita.isAfter(todayParsed)) {
+			System.out.println("Pa kak' možeš unijet datum poslije današnjeg za polaganje ispita? Daj se skoncentriraj.");
 			System.out.println(msg);		
 			datumIVrijemeIspitaString = scanner.nextLine();			 
 			datumIVrijemeIspita = LocalDateTime.parse(datumIVrijemeIspitaString, formatter);
