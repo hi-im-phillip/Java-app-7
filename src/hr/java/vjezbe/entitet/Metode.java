@@ -1,20 +1,25 @@
 package hr.java.vjezbe.entitet;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Scanner;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+
+import hr.java.vjezbe.glavna.Glavna2;
 
 
 public class Metode {
 	
-	public static final int BROJ_PROFESORA = 2;
-	public static final int BROJ_PREDMETA = 3;
-	public static final int BROJ_ISPITA = 1;
+	public static final int BROJ_PROFESORA = 1;
+	public static final int BROJ_PREDMETA = 1;
+	public static final int BROJ_ISPITA = 2;
+	
 	public static final String FORMAT_DATE_TIME = "dd.MM.yyyy.'T'HH:mm";
 	public static final String FORMAT_DATE = "dd.MM.yyyy.";
 	
@@ -25,15 +30,20 @@ public class Metode {
 		String imeProfesor = "";
 		String prezimeProfesor = "";
 		String titulaProfesora = "";
-		int j = 1;
+		
 		
 		for(int i = 0; i < profesor.length; i++) {
 
-			System.out.println("Unesite " + j + "." + " profesora: ");
+			System.out.println("Unesite " + (i+1) + "." + " profesora: ");
 
 			String msgProfesorSifra = "Unesite šifru profesora:  ";
 			sifraProfesor = emptyCheckerString(scanner, msgProfesorSifra);
-
+			
+			while(!NumberUtils.isDigits(sifraProfesor)) {
+				System.out.println("Samo brojevi dozvoljeni!");
+				sifraProfesor = emptyCheckerString(scanner, msgProfesorSifra);
+			}
+			
 			for (int k = 0; k < profesor.length && profesor[k] != null; k++) {
 				Profesor profesor2 = profesor[k];
 				while (profesor2.getSifra().equals(sifraProfesor)) {
@@ -51,7 +61,6 @@ public class Metode {
 			String msgProfesorTitula = "Unesite titulu profesora: ";
 			titulaProfesora = emptyCheckerString(scanner, msgProfesorTitula);
 
-			j++; 
 			profesor[i] = new Profesor(sifraProfesor, StringUtils.capitalize(imeProfesor), StringUtils.capitalize(prezimeProfesor), titulaProfesora);		
 
 		}		
@@ -67,13 +76,12 @@ public class Metode {
 		String nazivPredmet = "";
 		Integer brojEctsBodovaPredmet = 0;
 		Integer studentPredmetInt = 0;
-		int j = 1;
 		
-		
+			
 		for(int i = 0; i < predmet.length; i++) {
 
 			int h = 1;
-			System.out.println("Unesite " + j++ + "." + " predmet: ");
+			System.out.println("Unesite " + (i+1) + "." + " predmet: ");
 
 			String msgPredmetSifra = "Unesite šifru predmeta: ";
 			sifraPredmet = emptyCheckerString(scanner, msgPredmetSifra);			
@@ -89,6 +97,15 @@ public class Metode {
 
 			String msgPredmetName = "Unesite naziv predmeta: ";
 			nazivPredmet = emptyCheckerString(scanner, msgPredmetName);
+			
+			for (int j = 0; j < predmet.length && predmet[j] != null; j++) {
+				Predmet predmet2 = predmet[j];
+				while (predmet2.getNaziv().equals(nazivPredmet)) {
+					System.out.println("Ime je veæ unešeno. Probaj drugo.");
+					nazivPredmet = emptyCheckerString(scanner, msgPredmetName);
+				}
+				
+			}
 
 			String msgPredmetECTS = "Unesite broj ECTS bodova za predmet " + nazivPredmet + ":";
 			brojEctsBodovaPredmet = emptyCheckerInteger(scanner, msgPredmetECTS);				
@@ -114,6 +131,7 @@ public class Metode {
 			String msgPredmetBrStud = "Unesite broj studenta za predmet " + nazivPredmet + ":";
 			studentPredmetInt = emptyCheckerInteger(scanner, msgPredmetBrStud);				
 			Student[] studentPredmet = new Student[studentPredmetInt];
+			
 
 			predmet[i] = new Predmet(sifraPredmet, StringUtils.capitalize(nazivPredmet), brojEctsBodovaPredmet, profesorOdabir, studentPredmet);
 
@@ -126,11 +144,12 @@ public class Metode {
 	public Student[] fillStudent(Scanner scanner, Predmet[] predmet) {
 		
 		int sum = 0;
-		int j = 1;
+		
 		String imeStudent = "";
 		String prezimeStudent = "";
 		String jmbagStudent = "";
 		LocalDate datumRodenjaStudenta = null;
+		
 		
 		for (Predmet predmetObjekt : predmet) {
 			int lengthStudentObjArray = predmetObjekt.getStudent().length;
@@ -138,10 +157,11 @@ public class Metode {
 		}
 				
 		Student[] student = new Student[sum];
+		
 				
 		for(int i = 0; i < student.length; i++) {
 
-			System.out.println("Unesite " + j + "." + " studenta:");
+			System.out.println("Unesite " + (i+1) + "." + " studenta:");
 
 			String msgStudentName = "Unesite ime studenta: ";
 			imeStudent = emptyCheckerString(scanner, msgStudentName);
@@ -163,10 +183,10 @@ public class Metode {
 				}	
 			}
 
-			j++;
+			
 			student[i] = new Student(StringUtils.capitalize(imeStudent), StringUtils.capitalize(prezimeStudent), jmbagStudent, datumRodenjaStudenta);
-
-			predmet[i].setStudent(student);
+	
+			
 		}
 
 		return student;
@@ -179,13 +199,15 @@ public class Metode {
 		Student studentIspita;
 		Ispit[] ispit = new Ispit[BROJ_ISPITA];
 		Integer ocjenaIspita = 0;
-		int s = 1;
-		int p = 1;
-		int r = 1;
-				
+		
+			
+		
 		for (int i = 0; i < ispit.length; i++) {
 
-			System.out.println("Unesite ispitni rok: ");
+			int s = 1;
+			int p = 1;
+			
+			System.out.println("Unesite " + (i+1) + ". " + "ispitni rok: ");
 			
 			System.out.println("Odaberite predmet: ");		
 			for (Predmet predmetObj : predmet) 
@@ -218,7 +240,7 @@ public class Metode {
 			}		
 			studentIspita = student[odabirStudenta - 1];
 			System.out.println("Vaš odabir studenta je " + odabirStudenta + ". " + student[odabirStudenta - 1].getIme() + " " + student[odabirStudenta - 1].getPrezime());
-
+            
 			// IN PROGRESS
 //			for (Predmet predmet2 : predmet) {
 //				 Arrays.sort(predmet, (a, b) -> a.getNaziv().compareTo(b.getNaziv()));
@@ -237,11 +259,83 @@ public class Metode {
 
 			String msgDatumIVrijemeIspit = "Unesite datum i vrijeme ispita u formatu (dd.MM.yyyy.THH:mm):";
 			LocalDateTime datumIVrijemeIspita = dateTimeChecker(scanner, msgDatumIVrijemeIspit);
-
+            
+			
+			Student[] student3 = addStudent(studentIspita);
+			predmet[odabirPredmeta - 1].setStudent(student3);
+		//	removeStudent(student3);
+			
+			
 			ispit[i] = new Ispit(predmetIspita, studentIspita, ocjenaIspita, datumIVrijemeIspita);
 
 		}
 		return ispit;		
+	}
+	
+	
+	public ObrazovnaUstanova[] fillObrazovnaUstanova(Scanner scanner, Predmet[] predmetObrazovneUstanove, Profesor[] profesorObrazovneUstanove, 
+            Student[] studentObrazovneUstanove, Ispit[] ispitObrazovneUstanove) {
+		
+		String nazivObrUst;
+		Integer ocjenaPismenogRada;
+		Integer ocjenaObraneZavrsnogRada;
+		Integer biranjeUstanove;
+		
+		ObrazovnaUstanova[] obrazovnaUstanova = new ObrazovnaUstanova[Glavna2.BROJ_USTANOVA];
+		
+		for (int i = 0; i < obrazovnaUstanova.length; i++) {
+		
+		String msgBiranje = "Odaberite obrazovnu ustanovu za navedene podatke koju želite unijeti" + " 1 - " + VeleucilisteJave.class.getSimpleName() + 
+				           " 2 - " + FakultetRacunarstva.class.getSimpleName();
+		biranjeUstanove = emptyCheckerInteger(scanner, msgBiranje);
+		
+		while (biranjeUstanove > 2 && biranjeUstanove <= 0) {
+			System.out.println("Krivo odabran broj. Probaj ponovo!");
+			biranjeUstanove = emptyCheckerInteger(scanner, msgBiranje);
+		}
+		
+		
+			
+		String msgNazivObrUst = "Unesite naziv obrazovne ustanove:";
+		nazivObrUst = emptyCheckerString(scanner, msgNazivObrUst);
+		
+		String msgOcjenaPism = "Unesite ocjenu završnog rada za studenta:";
+		ocjenaPismenogRada = emptyCheckerInteger(scanner, msgOcjenaPism);
+		
+		String msgOcjenaZavrRad = "Unesite ocjenu obrane završnog rada za studenta:";
+		ocjenaObraneZavrsnogRada = emptyCheckerInteger(scanner, msgOcjenaZavrRad);
+		
+		if (biranjeUstanove == 1) {
+			
+			
+			
+			obrazovnaUstanova[i] = new VeleucilisteJave(nazivObrUst, predmetObrazovneUstanove, profesorObrazovneUstanove, predmetObrazovneUstanove[i].getStudent(), ispitObrazovneUstanove);
+			
+			BigDecimal bigDecimal = ((VeleucilisteJave)obrazovnaUstanova[i]).izracunajKonacnuOcjenuStudijaZaStudenta(ispitObrazovneUstanove, ocjenaPismenogRada, ocjenaObraneZavrsnogRada);
+			
+			System.out.println("Konaèna ocjena studija studenta" + studentObrazovneUstanove[i].getIme() + " " + studentObrazovneUstanove[i].getPrezime() 
+					           + " je " + bigDecimal);
+			
+			Student student = ((VeleucilisteJave)obrazovnaUstanova[i]).odrediNajuspjesnijegStudentaNaGodini(ispitObrazovneUstanove[i].getDatumIVrijeme().getDayOfYear());
+		} else {
+			
+			
+			obrazovnaUstanova[i] = new FakultetRacunarstva(nazivObrUst, predmetObrazovneUstanove, profesorObrazovneUstanove, studentObrazovneUstanove, ispitObrazovneUstanove);
+			
+			BigDecimal bigDecimal = ((FakultetRacunarstva)obrazovnaUstanova[i]).izracunajKonacnuOcjenuStudijaZaStudenta(ispitObrazovneUstanove, ocjenaPismenogRada, ocjenaObraneZavrsnogRada);
+			
+			System.out.println("Konaèna ocjena studija studenta" + studentObrazovneUstanove[i].getIme() + " " + studentObrazovneUstanove[i].getPrezime() 
+					           + " je " + bigDecimal);
+			
+		}
+		
+				
+		
+		}
+	
+				
+		return obrazovnaUstanova;
+		
 	}
 	
 	
@@ -346,8 +440,8 @@ public class Metode {
 		String datumIVrijemeIspitaString = scanner.nextLine();
 		LocalDateTime datumIVrijemeIspita = LocalDateTime.parse(datumIVrijemeIspitaString, formatter);
 		
-		while (datumIVrijemeIspita.isBefore(todayParsed)) {
-			System.out.println("Pa kak' možeš unijet datum prije današnjeg za polaganje ispita? Daj se skoncentriraj.");
+		while (datumIVrijemeIspita.isAfter(todayParsed)) {
+			System.out.println("Pa kak' možeš unijet datum poslije današnjeg za polaganje ispita? Daj se skoncentriraj.");
 			System.out.println(msg);		
 			datumIVrijemeIspitaString = scanner.nextLine();			 
 			datumIVrijemeIspita = LocalDateTime.parse(datumIVrijemeIspitaString, formatter);
@@ -355,6 +449,58 @@ public class Metode {
 		}
 		return datumIVrijemeIspita;
 	}
+	
+	
+	
+	
+	
+	public Student[] addStudent(Student student) {
+		Student[] stud = new Student[BROJ_ISPITA];
+		
+		for (int i = 0; i < stud.length; i++) {
+			stud[i] = student; 
+			
+		}
+		return stud;
+	}
+	
+	public void removeStudent(Student[] student) {
+		
+		student = ArrayUtils.remove(student, 0);
+	}
+	
+	public  Ispit[] filtrirajIspitePoStudentu(Ispit[] ispit, Student student) {
+
+
+		Integer counter = 0;
+
+
+		for (int i = 0; i < ispit.length; i++) {
+			if (ispit[i].getStudent().getIme().equals(student.getIme()) && ispit[i].getStudent().getPrezime().equals(student.getPrezime())) {
+				counter++;
+			}
+		}
+
+		Ispit[] ispit3 = new Ispit[counter];
+
+		for (int i = 0; i < ispit.length; i++) {
+
+			if (ispit[i].getStudent().getIme().equals(student.getIme()) && ispit[i].getStudent().getPrezime().equals(student.getPrezime())) {
+				Ispit ispit2 = ispit[i];
+				ispit3[i] = ispit2;
+			}
+
+
+
+		}
+
+		return ispit3;
+	}
+
+
+
+	
+	
 	
 }
 	

@@ -3,7 +3,7 @@ package hr.java.vjezbe.entitet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Student {
+public class Student extends Osoba{
 	
 	private String ime;
 	private String prezime;
@@ -11,6 +11,7 @@ public class Student {
     private LocalDate datumRodenja;
     
     public Student(String imeStudent, String prezimeStudent, String jmbagStudent, LocalDate datumRodenjaStudenta) {
+    	super(imeStudent, prezimeStudent);
     	this.ime = imeStudent;
     	this.prezime = prezimeStudent;
     	this.jmbag = jmbagStudent;

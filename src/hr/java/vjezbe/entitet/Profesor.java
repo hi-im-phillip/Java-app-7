@@ -1,8 +1,7 @@
 package hr.java.vjezbe.entitet;
 
-import java.util.Scanner;
 
-public class Profesor {
+public class Profesor extends Osoba {
 	
 	private String sifra;
 	private String ime;
@@ -10,14 +9,13 @@ public class Profesor {
 	private String titula;
 	
 	public Profesor(String sifraProfesor, String imeProfesor, String prezimeProfesor, String titulaProfesora) {
+		super(imeProfesor, prezimeProfesor);
 		this.sifra = sifraProfesor;
 		this.ime = imeProfesor;
 		this.prezime = prezimeProfesor;
 		this.titula = titulaProfesora;
 		
 	}
-	
-	Scanner skener = new Scanner(System.in);
 	
 	
 
