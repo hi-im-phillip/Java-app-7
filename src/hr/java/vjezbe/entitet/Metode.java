@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Scanner;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,7 +18,7 @@ import hr.java.vjezbe.glavna.Glavna2;
 public class Metode {
 	
 	public static final int BROJ_PROFESORA = 1;
-	public static final int BROJ_PREDMETA = 1;
+	public static final int BROJ_PREDMETA = 2;
 	public static final int BROJ_ISPITA = 2;
 	
 	public static final String FORMAT_DATE_TIME = "dd.MM.yyyy.'T'HH:mm";
@@ -199,7 +200,6 @@ public class Metode {
 		Student studentIspita;
 		Ispit[] ispit = new Ispit[BROJ_ISPITA];
 		Integer ocjenaIspita = 0;
-		
 			
 		
 		for (int i = 0; i < ispit.length; i++) {
@@ -239,8 +239,18 @@ public class Metode {
 				scanner.nextLine();
 			}		
 			studentIspita = student[odabirStudenta - 1];
+			predmet[odabirPredmeta - 1].setStudent(Arrays.copyOfRange(student, odabirStudenta - 1, odabirStudenta));
 			System.out.println("Vaš odabir studenta je " + odabirStudenta + ". " + student[odabirStudenta - 1].getIme() + " " + student[odabirStudenta - 1].getPrezime());
             
+	//		Student[] student3 = new Student[1];
+			
+	//		addStudent(studentIspita, student3);
+	//		System.arraycopy(student3, 0, student4, i, student3.length);
+	//		predmet[odabirPredmeta - 1].setStudent(student4);
+			
+		//	resetStudentArray(student3);
+			
+			
 			// IN PROGRESS
 //			for (Predmet predmet2 : predmet) {
 //				 Arrays.sort(predmet, (a, b) -> a.getNaziv().compareTo(b.getNaziv()));
@@ -261,9 +271,7 @@ public class Metode {
 			LocalDateTime datumIVrijemeIspita = dateTimeChecker(scanner, msgDatumIVrijemeIspit);
             
 			
-			Student[] student3 = addStudent(studentIspita);
-			predmet[odabirPredmeta - 1].setStudent(student3);
-		//	removeStudent(student3);
+			
 			
 			
 			ispit[i] = new Ispit(predmetIspita, studentIspita, ocjenaIspita, datumIVrijemeIspita);
@@ -299,11 +307,11 @@ public class Metode {
 		String msgNazivObrUst = "Unesite naziv obrazovne ustanove:";
 		nazivObrUst = emptyCheckerString(scanner, msgNazivObrUst);
 		
-		String msgOcjenaPism = "Unesite ocjenu završnog rada za studenta:";
-		ocjenaPismenogRada = emptyCheckerInteger(scanner, msgOcjenaPism);
+//		String msgOcjenaPism = "Unesite ocjenu završnog rada za studenta:";
+//		ocjenaPismenogRada = emptyCheckerInteger(scanner, msgOcjenaPism);
 		
-		String msgOcjenaZavrRad = "Unesite ocjenu obrane završnog rada za studenta:";
-		ocjenaObraneZavrsnogRada = emptyCheckerInteger(scanner, msgOcjenaZavrRad);
+//		String msgOcjenaZavrRad = "Unesite ocjenu obrane završnog rada za studenta:";
+//		ocjenaObraneZavrsnogRada = emptyCheckerInteger(scanner, msgOcjenaZavrRad);
 		
 		if (biranjeUstanove == 1) {
 			
@@ -311,21 +319,23 @@ public class Metode {
 			
 			obrazovnaUstanova[i] = new VeleucilisteJave(nazivObrUst, predmetObrazovneUstanove, profesorObrazovneUstanove, predmetObrazovneUstanove[i].getStudent(), ispitObrazovneUstanove);
 			
-			BigDecimal bigDecimal = ((VeleucilisteJave)obrazovnaUstanova[i]).izracunajKonacnuOcjenuStudijaZaStudenta(ispitObrazovneUstanove, ocjenaPismenogRada, ocjenaObraneZavrsnogRada);
+	//		BigDecimal bigDecimal = ((VeleucilisteJave)obrazovnaUstanova[i]).izracunajKonacnuOcjenuStudijaZaStudenta(ispitObrazovneUstanove, ocjenaPismenogRada, ocjenaObraneZavrsnogRada);
 			
-			System.out.println("Konaèna ocjena studija studenta" + studentObrazovneUstanove[i].getIme() + " " + studentObrazovneUstanove[i].getPrezime() 
-					           + " je " + bigDecimal);
+	//		System.out.println("Konaèna ocjena studija studenta" + studentObrazovneUstanove[i].getIme() + " " + studentObrazovneUstanove[i].getPrezime() 
+	//				           + " je " + bigDecimal);
 			
-			Student student = ((VeleucilisteJave)obrazovnaUstanova[i]).odrediNajuspjesnijegStudentaNaGodini(ispitObrazovneUstanove[i].getDatumIVrijeme().getDayOfYear());
+			Student student = ((VeleucilisteJave)obrazovnaUstanova[i]).odrediNajuspjesnijegStudentaNaGodini(2018);
+			
+			System.out.println("Najbolji student 2018. godine je" + student.getIme() + " " + student.getPrezime() + " " + student.getJmbag());
 		} else {
 			
 			
 			obrazovnaUstanova[i] = new FakultetRacunarstva(nazivObrUst, predmetObrazovneUstanove, profesorObrazovneUstanove, studentObrazovneUstanove, ispitObrazovneUstanove);
 			
-			BigDecimal bigDecimal = ((FakultetRacunarstva)obrazovnaUstanova[i]).izracunajKonacnuOcjenuStudijaZaStudenta(ispitObrazovneUstanove, ocjenaPismenogRada, ocjenaObraneZavrsnogRada);
+//			BigDecimal bigDecimal = ((FakultetRacunarstva)obrazovnaUstanova[i]).izracunajKonacnuOcjenuStudijaZaStudenta(ispitObrazovneUstanove, ocjenaPismenogRada, ocjenaObraneZavrsnogRada);
 			
-			System.out.println("Konaèna ocjena studija studenta" + studentObrazovneUstanove[i].getIme() + " " + studentObrazovneUstanove[i].getPrezime() 
-					           + " je " + bigDecimal);
+//			System.out.println("Konaèna ocjena studija studenta" + studentObrazovneUstanove[i].getIme() + " " + studentObrazovneUstanove[i].getPrezime() 
+//					           + " je " + bigDecimal);
 			
 		}
 		
@@ -454,19 +464,24 @@ public class Metode {
 	
 	
 	
-	public Student[] addStudent(Student student) {
-		Student[] stud = new Student[BROJ_ISPITA];
+	public Student[] addStudent(Student student, Student[] studentArray) {
 		
-		for (int i = 0; i < stud.length; i++) {
-			stud[i] = student; 
+		
+	//	ArrayUtils.add(array, element)
+		
+		for (int i = 0; i < studentArray.length; i++) {
+			studentArray[i] = student; 
 			
 		}
-		return stud;
+		return studentArray;
 	}
 	
-	public void removeStudent(Student[] student) {
+	public Student[] resetStudentArray(Student[] student) {
 		
-		student = ArrayUtils.remove(student, 0);
+		 student = ArrayUtils.removeElement(student, 0);
+		 
+		 return student;
+		
 	}
 	
 	public  Ispit[] filtrirajIspitePoStudentu(Ispit[] ispit, Student student) {

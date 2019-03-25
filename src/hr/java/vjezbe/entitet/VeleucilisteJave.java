@@ -33,19 +33,12 @@ public class VeleucilisteJave extends ObrazovnaUstanova implements Visokoskolska
 		Integer[] parsedBDArray = new Integer[getStudent().length];
 		String[] listaStringa = new String[getStudent().length];
 		Student[] studentic = new Student[getStudent().length];
+		Integer konacnaOcjena = 0;
+		Integer sum = 0;
+		Student[] najboljiStudent = new Student[getStudent().length];
 		
-//		for (Student student2 : getStudent()) {
-//			if (student2.getDatumRodenja().getDayOfYear() == godina) {
-//				for (Ispit ispitic : getIspit()) {
-//					if (ispitic.getOcjena() == 5 && ispitic.getStudent().getPrezime().equals(student2.getPrezime())) {
-//						System.out.println(ispitic.getStudent().getPrezime() + ispitic.getStudent().getIme() + counter++);
-//						if (counter > 1) {
-//							
-//						}
-//					}
-//				}
-//			}
-//		}
+		
+		
 		
 		String msgNazivObrUst = "Unesite naziv obrazovne ustanove:";
 		nazivObrUst = metode.emptyCheckerString(scanner, msgNazivObrUst);
@@ -57,25 +50,58 @@ public class VeleucilisteJave extends ObrazovnaUstanova implements Visokoskolska
 		ocjenaObraneZavrsnogRada = metode.emptyCheckerInteger(scanner, msgOcjenaZavrRad);
 		
 		for (int i = 0; i < getStudent().length; i++) {
-			 studentic = getStudent();					
-					bigDecimal = izracunajKonacnuOcjenuStudijaZaStudenta(getIspit(), ocjenaPismenogRada, ocjenaObraneZavrsnogRada);
-					parsedBD = bigDecimal.intValue();
-					listaStringa[i] = Integer.toString(parsedBD) + studentic[i].getIme() + " " + studentic[i].getPrezime();
-					parsedBDArray[i] = parsedBD;
-					System.out.println("Konacna ocjena studenta " + studentic[i].getIme() + " " + studentic[i].getPrezime() + " je " + parsedBDArray[i]);		
+			Student student = getStudent()[i];
+			Ispit[] ispitiJednogStudenta = filtrirajIspitePoStudentu(getIspit(), student);
+			BigDecimal bDecimal = izracunajKonacnuOcjenuStudijaZaStudenta(ispitiJednogStudenta, ocjenaPismenogRada, ocjenaObraneZavrsnogRada);
+			konacnaOcjena = bDecimal.intValue();
+			if (sum != konacnaOcjena && sum < konacnaOcjena) {
+				sum = konacnaOcjena;
+				najboljiStudent[i] = student;
+				
+			}
+			
+			
 		}
-		Arrays.sort(listaStringa, (p1, p2) -> p1.compareTo(p2));
-		System.out.println(Arrays.toString(listaStringa));
+		
+//		for (Student student : getStudent()) {
+//			Ispit[] ispitiJednogStudenta = filtrirajIspitePoStudentu(getIspit(), student);
+//			BigDecimal bDecimal = izracunajKonacnuOcjenuStudijaZaStudenta(ispitiJednogStudenta, ocjenaPismenogRada, ocjenaObraneZavrsnogRada);
+//			konacnaOcjena = bDecimal.intValue();
+//			sum += konacnaOcjena;
+//			if (konacnaOcjena > 4) {
+//				Student student2 = student;
+//			}
+//		}
+		
+//		for (int i = 0; i < getIspit().length; i++) {
+//			Ispit ispitic = getIspit()[i];
+//			if (ocjenaObraneZavrsnogRada > 4 || ocjenaPismenogRada > 4 || ispitic.getOcjena() > 4) {
+//				Student studenticOdlikas = getIspit()[i].getStudent();
+//			}
+//		}
+		
+		
+//		for (int i = 0; i < getStudent().length; i++) {
+//			 studentic = getStudent();					
+//					bigDecimal = izracunajKonacnuOcjenuStudijaZaStudenta(getIspit(), ocjenaPismenogRada, ocjenaObraneZavrsnogRada);
+//					parsedBD = bigDecimal.intValue();
+//					listaStringa[i] = Integer.toString(parsedBD) + studentic[i].getIme() + " " + studentic[i].getPrezime();
+//					parsedBDArray[i] = parsedBD;
+//					System.out.println("Konacna ocjena studenta " + studentic[i].getIme() + " " + studentic[i].getPrezime() + " je " + parsedBDArray[i]);		
+//					
+//		}
+//		Arrays.sort(listaStringa, (p1, p2) -> p1.compareTo(p2));
+//		System.out.println(Arrays.toString(listaStringa));
 //		for (int i = 0; i < parsedBDArray.length; i++) {
 //			
 //		}
 //		Arrays.sort(parsedBDArray, (p1, p2) -> p1.compareTo(p2));
 //		System.out.println(Arrays.toString(parsedBDArray));
 
-		return studentic[0];
+		return najboljiStudent[0];
 		
 	}
-// filtiranepostudentu predajemo, te on unutar izracunava prosjekocjene i sa tim prosjekom konacni rezultat
+// filtiranepostudentu predajemo, te on unutar izracunava prosjek ocjene i sa tim prosjekom konacni rezultat
 	@Override
 	public BigDecimal izracunajKonacnuOcjenuStudijaZaStudenta(Ispit[] studentIspit, Integer ocjenaPismenogRada, Integer ocjenaObraneZavrsnogRada) {
 	
@@ -107,7 +133,7 @@ public class VeleucilisteJave extends ObrazovnaUstanova implements Visokoskolska
 		
 	Ispit[] ispit3 = new Ispit[counter];
 		
-		for (int i = 0; i < ispit.length; i++) {
+		for (int i = 0; i < ispit.length && ispit[i] != null ; i++) {
 			
             if (ispit[i].getStudent().getIme().equals(student.getIme()) && ispit[i].getStudent().getPrezime().equals(student.getPrezime())) {
             	Ispit ispit2 = ispit[i];
