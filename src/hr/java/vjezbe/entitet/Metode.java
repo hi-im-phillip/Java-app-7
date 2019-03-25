@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Scanner;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,10 +16,16 @@ import hr.java.vjezbe.glavna.Glavna2;
 
 public class Metode {
 	
+<<<<<<< HEAD
 	public static final int BROJ_PROFESORA = 1;
 	public static final int BROJ_PREDMETA = 2;
 	public static final int BROJ_ISPITA = 2;
 	
+=======
+	public static final int BROJ_PROFESORA = 2;
+	public static final int BROJ_PREDMETA = 3;
+	public static final int BROJ_ISPITA = 2;
+>>>>>>> 3cf4baa2c4bdf77d1beb593ca03bd9a26aef3166
 	public static final String FORMAT_DATE_TIME = "dd.MM.yyyy.'T'HH:mm";
 	public static final String FORMAT_DATE = "dd.MM.yyyy.";
 	
@@ -200,6 +205,10 @@ public class Metode {
 		Student studentIspita;
 		Ispit[] ispit = new Ispit[BROJ_ISPITA];
 		Integer ocjenaIspita = 0;
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 3cf4baa2c4bdf77d1beb593ca03bd9a26aef3166
 			
 		
 		for (int i = 0; i < ispit.length; i++) {
@@ -242,6 +251,7 @@ public class Metode {
 			predmet[odabirPredmeta - 1].setStudent(Arrays.copyOfRange(student, odabirStudenta - 1, odabirStudenta));
 			System.out.println("Vaš odabir studenta je " + odabirStudenta + ". " + student[odabirStudenta - 1].getIme() + " " + student[odabirStudenta - 1].getPrezime());
             
+<<<<<<< HEAD
 	//		Student[] student3 = new Student[1];
 			
 	//		addStudent(studentIspita, student3);
@@ -251,6 +261,8 @@ public class Metode {
 		//	resetStudentArray(student3);
 			
 			
+=======
+>>>>>>> 3cf4baa2c4bdf77d1beb593ca03bd9a26aef3166
 			// IN PROGRESS
 //			for (Predmet predmet2 : predmet) {
 //				 Arrays.sort(predmet, (a, b) -> a.getNaziv().compareTo(b.getNaziv()));
@@ -271,7 +283,13 @@ public class Metode {
 			LocalDateTime datumIVrijemeIspita = dateTimeChecker(scanner, msgDatumIVrijemeIspit);
             
 			
+<<<<<<< HEAD
 			
+=======
+			Student[] student3 = addStudent(studentIspita);
+			predmet[odabirPredmeta - 1].setStudent(student3);
+			removeStudent(student3);
+>>>>>>> 3cf4baa2c4bdf77d1beb593ca03bd9a26aef3166
 			
 			
 			ispit[i] = new Ispit(predmetIspita, studentIspita, ocjenaIspita, datumIVrijemeIspita);
@@ -460,6 +478,7 @@ public class Metode {
 		return datumIVrijemeIspita;
 	}
 	
+<<<<<<< HEAD
 	
 	
 	
@@ -517,5 +536,22 @@ public class Metode {
 	
 	
 	
+=======
+	public Student[] addStudent(Student student) {
+		Student[] stud = new Student[BROJ_ISPITA];
+		int i = 0;
+		if (i < stud.length) {
+			stud[i] = student; 
+			i++;
+		}
+		return stud;
+	}
+	
+	public void removeStudent(Student[] student) {
+		
+		student = ArrayUtils.remove(student, 0);
+	}
+	
+>>>>>>> 3cf4baa2c4bdf77d1beb593ca03bd9a26aef3166
 }
 	

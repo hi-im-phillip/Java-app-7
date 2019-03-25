@@ -43,7 +43,12 @@ public class Glavna2 {
 		scanner.close();
 		
 		
+<<<<<<< HEAD
 	   
+=======
+		
+		
+>>>>>>> 3cf4baa2c4bdf77d1beb593ca03bd9a26aef3166
 				
 				
 	}
